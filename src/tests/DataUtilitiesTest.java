@@ -68,6 +68,51 @@ public class DataUtilitiesTest {
   }
 
   @Test
+  public void recognisesValidDatesWithThresholds() {
+    String[] test = { "10/10/1990", "dateWithMinimum" };
+    assertTrue(DataUtilities.isValid(test));
+
+    String[] test2 = { "31/12/1888", "dateWithMinimum" };
+    assertTrue(DataUtilities.isValid(test2));
+
+    // Edge case - JUST 18 years old
+    String[] test3 = { "16/11/1995", "dateWithMinimum" };
+    assertFalse(DataUtilities.isValid(test3));
+  }
+
+  @Test
+  public void rejectsInvalidDatesWithThresholds() {
+    // Imaginary month
+    String[] test = { "10/13/1990", "dateWithMinimum" };
+    assertFalse(DataUtilities.isValid(test));
+
+    // April has no 31st
+    String[] test2 = { "31/04/1888", "dateWithMinimum" };
+    assertFalse(DataUtilities.isValid(test2));
+
+    // NOT a leap year
+    String[] test3 = { "29/02/2059", "dateWithMinimum" };
+    assertFalse(DataUtilities.isValid(test3));
+
+    // Rubbish
+    String[] test4 = { "abcdefgh", "dateWithMinimum" };
+    assertFalse(DataUtilities.isValid(test4));
+
+    // Day Zero
+    String[] test5 = { "0/02/2059", "dateWithMinimum" };
+    assertFalse(DataUtilities.isValid(test5));
+
+    // Date in the future
+    String[] test6 = { "29/2/2060", "dateWithMinimum" };
+    assertFalse(DataUtilities.isValid(test6));
+
+    // Too young
+    String[] test7 = { "1/1/2013", "dateWithMinimum" };
+    assertFalse(DataUtilities.isValid(test7));
+  }
+
+
+  @Test
   public void recognisesValidGenders() {
     String[] test = { "Male", "gender" };
     assertTrue(DataUtilities.isValid(test));
