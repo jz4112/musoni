@@ -10,7 +10,7 @@ public class DataUtilities {
 
   private final static String dateFormat = "dd/MM/yyyy";
   private final static List<String> genders = new LinkedList<String>(
-      Arrays.asList("Male", "False"));
+      Arrays.asList("Male", "Female"));
   private final static List<String> maritalStatus = new LinkedList<String>(
       Arrays.asList("Single", "Married", "Divorced"));
   private final static List<String> relationships = new LinkedList<String>(
