@@ -1,0 +1,78 @@
+@import url(http://fonts.googleapis.com/css?family=Droid+Sans);
+
+.button 
+{
+	padding: 5px 15px 5px 15px;
+	-webkit-appearance: none;
+
+	border: none;
+	border-radius: 5px;
+	font-size: 28px;
+	color: #fff;
+	background: #4191e8;
+	margin: 5px;
+	box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.button:focus {
+	outline: none;
+}
+
+.button:disabled {
+	background: #999;
+}
+
+.field {
+	border: none;
+	background: #ccc;
+	border-radius: 5px;
+	outline: 0;
+	padding: 5px 10px 5px 10px;
+	border: 1px solid #ccc;
+	box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.field:focus {
+	background: #fff;
+	color: #000;
+
+	box-shadow: 0px 0px 10px rgba(65, 145, 232, 0.8);
+	border: 1px solid #4191e8;
+}
+
+.logo-image {
+	background:  url('logo_musoni.jpg') no-repeat;
+	width: 226px;
+	height: 44px;
+	margin: auto;
+}
+
+.top-pad {
+	margin-top: 20px;
+}
+
+.infotext {
+	font-size: 24px;
+	color: #4191e8;
+	padding: 5px;
+	display: inline-block;
+}
+
+html, body {
+	font-size: 0;
+	font-family: 'Droid Sans', 'Ubuntu', sans-serif;
+	color: #666;
+	background: #fff;
+}
+
+input, button, label {
+	font-size: 24px;
+}
+
+#wrapper {
+		margin: auto;
+		width: 100%;
+		text-align: center;
+}
+
+

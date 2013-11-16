@@ -2,7 +2,7 @@ package forms;
 
 import java.util.Set;
 
-public class ClientRegistrationForm extends Form {
+public class GroupRegistrationForm extends Form {
 
   public boolean validateData() {
     Set<String> keySet = fields.keySet();
@@ -12,18 +12,17 @@ public class ClientRegistrationForm extends Form {
       return false;
     }
 
-    if ((!keySet.contains("firstname") || !keySet.contains("lastname"))
-        && !keySet.contains("fullname")) {
-      // Must have a firstname and lastname, OR a fullname (for businesses)
+    if (!keySet.contains("name")) {
+      // We need name to be present
       return false;
     }
 
     return checkData();
   }
 
-  public String getCreateClientJSONRequest() {
+  public String getCreateGroupJSONRequest() {
     StringBuilder strB = new StringBuilder();
-    strB.append("POST clients\n");
+    strB.append("POST groups\n");
     strB.append("Content-Type: application/json Request Body:");
     strB.append("{\n");
     for (String str : fields.keySet()) {

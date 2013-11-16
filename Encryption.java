@@ -29,7 +29,7 @@ public class Encryption {
 	public static byte[] generateKey(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException, NoSuchProviderException {
 		byte[] keyStart = password.getBytes("UTF-8");
 		KeyGenerator keyGen = KeyGenerator.getInstance(algorithm);
-		SecureRandom scr = SecureRandom.getInstance("SHA1PRNG", "Crypto");
+		SecureRandom scr = SecureRandom.getInstance("SHA1PRNG");
 		scr.setSeed(keyStart);
 		keyGen.init(128,scr);
 		SecretKey sKey = keyGen.generateKey();
@@ -43,11 +43,11 @@ public class Encryption {
 		return cipher.doFinal(data);
 	}
 	
-	public static byte[] decode(byte[] key, byte[] encrypted) throws NoSuchAlgorithmException, UnsupportedEncodingException, NoSuchProviderException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+	public static String decrypt(byte[] key, byte[] encrypted) throws NoSuchAlgorithmException, UnsupportedEncodingException, NoSuchProviderException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
 		SecretKeySpec sKeySpec = new SecretKeySpec(key, algorithm);
 		Cipher cipher = Cipher.getInstance(algorithm);
 		cipher.init(Cipher.DECRYPT_MODE, sKeySpec);
-		return cipher.doFinal(encrypted);
+		return new String(cipher.doFinal(encrypted));
 	}
 
 }
