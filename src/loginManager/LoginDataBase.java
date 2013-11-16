@@ -12,13 +12,20 @@ public class LoginDataBase {
 	// map stores user name and hashed password
 	private static Map<String, String> map;
 	private static File dir;
+	private static LoginDataBase instance;
+
 	private LoginDataBase() {
 		map = new HashMap<String, String>();
 		dir = new File("." + File.separator + "loginDataBase");
 	}
+
 	public static LoginDataBase getInstance() {
-		return new LoginDataBase();
+	  if(instance == null) {
+	    instance = new LoginDataBase();
+	  }
+	  return instance;
 	}
+
 	public boolean constainsUsername(String user) {
 		return map.containsKey(user);
 	}
@@ -29,7 +36,7 @@ public class LoginDataBase {
 		//one can only change his/her password after logged in successfully
 		map.put(username, Encryption.hash(newPassword));
 	}
-	
-	
-	
+
+
+
 }

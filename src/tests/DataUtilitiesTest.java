@@ -78,7 +78,7 @@ public class DataUtilitiesTest {
 
     // Edge case - JUST 18 years old
     String[] test3 = { "16/11/1995", "dateWithMinimum" };
-    assertFalse(DataUtilities.isValid(test3));
+    assertTrue(DataUtilities.isValid(test3));
   }
 
   @Test
