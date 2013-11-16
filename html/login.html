@@ -61,13 +61,13 @@
 			}
 
 			$(this).prop("disabled", true);
-			var login_result = Interact.attemptLogIn(user, pass)
+			var login_result = Interact.attemptLogIn(user, pass);
 			$(this).prop("disabled", false);
 		
 			if(login_result.length == 0)
 			{
 				if(Interact.canAnimate())
-					wrap.fadeOut(300, function() { Interact.navigateToMain(); });
+					$("#wrapper").fadeOut(300, function() { Interact.navigateToMain(); });
 				else
 					Interact.navigateToMain();
 			}
