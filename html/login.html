@@ -25,19 +25,67 @@
 		else
 			wrap.show();
 
+		// user/pass validation
+		$("[name='username']").blur(function() {
+			if($(this).val().length == 0)
+				$(this).addClass("error");
+			else
+				$(this).removeClass("error");
+		});
+
+		$("[name='password']").blur(function() { 
+			if($(this).val().length == 0)
+				$(this).addClass("error");
+			else
+				$(this).removeClass("error");
+		});
+
 		// handles login
 		$("#loginbutton").click(function()
 		{
+			var user = $("[name='username']").val();
+			var pass = $("[name='password']").val();
+
+			if(user.length == 0 || pass.length == 0)
+			{
+				// don't even bother
+				$("#errorblock").text("Pease fill in both username and password fields");
+				
+				if(user.length == 0)
+					$("[name='username']").addClass("error");
+
+				if(pass.length == 0)
+					$("[name='password']").addClass("error");
+
+				return;
+			}
+
 			$(this).prop("disabled", true);
-			var result = Interact.attemptLogIn($("[name='username']").val(), $("[name='password']").val());
+			var login_result = Interact.attemptLogIn(user, pass)
 			$(this).prop("disabled", false);
+		
+			if(login_result == "")
+			{
+				if(Interact.canAnimate())
+					wrap.fadeOut(300, function() { Interact.navigateToMain(); });
+				else
+					Interact.navigateToMain();
+			}
+			else
+			{
+				// let's insert the status message
+					$("#errorblock").html(login_result);
+			}
+
 		});
 
 	});
 	</script>
 	<div id="wrapper">
 		<br/><br/>
+	
 		<div class="logo-image top-pad"></div>
+		<div id="errorblock"></div>
 		<form  action="#" method="GET">
 			<label>username<br/><input class="field" type="text" name="username" /></label><br/>
 			<label>password<br/><input class="field" type="password" name="password" /></label><br/>

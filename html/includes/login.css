@@ -9,3 +9,11 @@ label {
 .button {
 	margin-top: 20px;
 }
+
+#errorblock {
+	font-size: 24px;
+	text-align: center;
+	display: inline-block;
+
+	color: #ff3124;
+}

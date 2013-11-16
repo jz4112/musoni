@@ -40,6 +40,12 @@
 	border: 1px solid #4191e8;
 }
 
+.field.error {
+	box-shadow: 0px 0px 10px rgba(255, 0, 0, 0.5);
+	border: 1px solid #FF3124; 
+}
+
+
 .logo-image {
 	background:  url('logo_musoni.jpg') no-repeat;
 	width: 226px;
@@ -57,6 +63,8 @@
 	padding: 5px;
 	display: inline-block;
 }
+
+
 
 html, body {
 	font-size: 0;
