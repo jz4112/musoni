@@ -64,7 +64,7 @@
 			var login_result = Interact.attemptLogIn(user, pass)
 			$(this).prop("disabled", false);
 		
-			if(login_result == "")
+			if(login_result.length == 0)
 			{
 				if(Interact.canAnimate())
 					wrap.fadeOut(300, function() { Interact.navigateToMain(); });
@@ -74,7 +74,7 @@
 			else
 			{
 				// let's insert the status message
-					$("#errorblock").html(login_result);
+				$("#errorblock").html(login_result);
 			}
 
 		});
