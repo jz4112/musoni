@@ -3,8 +3,11 @@ package utilities;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 public class DataUtilities {
 
@@ -16,6 +19,7 @@ public class DataUtilities {
   private final static List<String> relationships = new LinkedList<String>(
       Arrays.asList("Parent", "Sibling", "Spouse", "Business Associate",
           "Other"));
+  private final static int AGE_THRESHOLD = 18;
 
   public static boolean isValid(String[] str) {
     if (str.length != 2) {
@@ -47,6 +51,8 @@ public class DataUtilities {
       return true;
     } else if (validationType.equals("date")) {
       return isValidDate(value);
+    } else if (validationType.equals("dateWithMinimum")) {
+      return isValidDateMin(value);
     } else if (validationType.equals("gender")) {
       return isValidGender(value);
     } else if (validationType.equals("phone")) {
@@ -83,6 +89,45 @@ public class DataUtilities {
 
     // Yes, a valid date
     return true;
+  }
+
+  public static boolean isValidDateMin(String str) {
+    if (str == null) {
+      return false;
+    }
+
+    SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+    sdf.setLenient(false);
+
+    Date date;
+
+    try {
+      date = sdf.parse(str);
+    } catch (ParseException e) {
+      // Not a valid date
+      return false;
+    }
+
+    // this is a valid date, now to check the minimum
+    Calendar entryTime = getCalendar(date);
+    Calendar currTime = Calendar.getInstance();
+
+    int age = currTime.get(Calendar.YEAR) - entryTime.get(Calendar.YEAR);
+    if (currTime.get(Calendar.MONTH) < entryTime.get(Calendar.MONTH)) {
+      age--;
+    } else if (currTime.get(Calendar.MONTH) == entryTime.get(Calendar.MONTH)
+        && currTime.get(Calendar.DAY_OF_MONTH) < entryTime
+            .get(Calendar.DAY_OF_MONTH)) {
+      age--;
+    }
+
+    return age >= AGE_THRESHOLD;
+  }
+
+  private static Calendar getCalendar(Date date) {
+    Calendar cal = Calendar.getInstance(Locale.US);
+    cal.setTime(date);
+    return cal;
   }
 
   public static boolean isValidEmailAddress(String str) {
