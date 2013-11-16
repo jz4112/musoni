@@ -1,16 +1,18 @@
-package com.example.code4good;
+package loginManager;
 
-import java.util.Random;
-import com.example.code4good.LoginDataBase;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+
+import encryption.Encryption;
 
 public class LoginManager {
 	private String username;
 	private String password;
-	
+
 	private static String hashedPassword;
 
 
-	public LoginManager(String username, String password) {
+	public LoginManager(String username, String password) throws UnsupportedEncodingException, NoSuchAlgorithmException {
 		this.username = username;
 		this.password = password;
 		hashedPassword =  Encryption.hash(password); // STORE THE HASHED VALUE IN THE DATABASE
@@ -25,7 +27,7 @@ public class LoginManager {
 	}
 
 	public void logout() {
-		
+
 	}
 
 

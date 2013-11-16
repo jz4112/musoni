@@ -1,4 +1,4 @@
-package com.example.musoni;
+package encryption;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
@@ -16,16 +16,16 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 public class Encryption {
-	
+
 	static String algorithm = "AES";
 	static String hashAlg = "SHA-256";
-	
+
 	public static String hash(String password) throws UnsupportedEncodingException, NoSuchAlgorithmException {
 		MessageDigest digest = MessageDigest.getInstance(hashAlg);
 		return new String(digest.digest(password.getBytes("UTF-8")));
-		
+
 	}
-	
+
 	public static byte[] generateKey(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException, NoSuchProviderException {
 		byte[] keyStart = password.getBytes("UTF-8");
 		KeyGenerator keyGen = KeyGenerator.getInstance(algorithm);
@@ -35,14 +35,14 @@ public class Encryption {
 		SecretKey sKey = keyGen.generateKey();
 		return sKey.getEncoded();
 	}
-	
+
 	public static byte[] encrypt(byte[] key, byte[] data) throws NoSuchAlgorithmException, UnsupportedEncodingException, NoSuchProviderException, InvalidKeyException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
 		SecretKeySpec sKeySpec = new SecretKeySpec(key, algorithm);
 		Cipher cipher = Cipher.getInstance(algorithm);
 		cipher.init(Cipher.ENCRYPT_MODE, sKeySpec);
 		return cipher.doFinal(data);
 	}
-	
+
 	public static String decrypt(byte[] key, byte[] encrypted) throws NoSuchAlgorithmException, UnsupportedEncodingException, NoSuchProviderException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
 		SecretKeySpec sKeySpec = new SecretKeySpec(key, algorithm);
 		Cipher cipher = Cipher.getInstance(algorithm);
