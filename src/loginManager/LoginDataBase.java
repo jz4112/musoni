@@ -1,11 +1,8 @@
-package loginManager;
+package com.example.code4good;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-
-import encryption.Encryption;
 
 /**
  * login data base that stores large login details in hard disk on the phone
@@ -14,19 +11,25 @@ import encryption.Encryption;
 public class LoginDataBase {
 	// map stores user name and hashed password
 	private static Map<String, String> map;
-
+	private static File dir;
 	private LoginDataBase() {
 		map = new HashMap<String, String>();
+		dir = new File("." + File.separator + "loginDataBase");
 	}
-	public static Map<String, String> getInstance() {
-		return map;
+	public static LoginDataBase getInstance() {
+		return new LoginDataBase();
 	}
-	public static boolean constainsUsername(String user) {
+	public boolean constainsUsername(String user) {
 		return map.containsKey(user);
 	}
-
-	public static void changePassword(String username, String newPassword) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+	public String getHashedPassword(String password) {
+		return Encryption.hash(password);
+	}
+	public void changePassword(String username, String newPassword) {
 		//one can only change his/her password after logged in successfully
 		map.put(username, Encryption.hash(newPassword));
 	}
+	
+	
+	
 }
