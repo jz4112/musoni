@@ -68,7 +68,7 @@ public class DataUtilities {
   public static boolean isValidPhoneNumber(String str) {
     // Extensible depending on specific requirements.
     // We can change this to be country dependent as well
-    // Currently verifying against uk numbers
+    // Currently verifying against UK numbers only.
     return str.matches("^0[0-9]{9,10}$");
   }
 

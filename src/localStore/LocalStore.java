@@ -4,7 +4,6 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,11 +16,14 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
+import forms.Form;
+
 public class LocalStore implements Serializable {
 	private static final long serialVersionUID = 42L;
 	private static String dirPathName = "." + File.separator + "form lists";
 	private static File dir;
 	private static List<Form> forms;
+	private static LocalStore instance = null;
 
 	private LocalStore() {
 		forms = new LinkedList<Form>();
@@ -32,7 +34,10 @@ public class LocalStore implements Serializable {
 	}
 
 	public LocalStore getInstance() {
-		return new LocalStore();
+	  if(instance == null) {
+	    instance = new LocalStore();
+	  }
+	  return instance;
 	}
 
 	private String filePath(Form form) {
@@ -68,7 +73,7 @@ public class LocalStore implements Serializable {
 	public boolean loadAll() throws ClassNotFoundException, IOException {
 		InputStream buffer;
 		for (File f : dir.listFiles()) {
-			buffer = new BufferedInputStream(new FileInputStream(f)); 
+			buffer = new BufferedInputStream(new FileInputStream(f));
 			ObjectInput in = new ObjectInputStream(buffer);
 			Form form = (Form)in.readObject();
 			forms.add(form);
