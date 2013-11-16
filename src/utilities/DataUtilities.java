@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public class DataUtilities {
 
@@ -30,29 +29,29 @@ public class DataUtilities {
     String validationType = str[1];
 
     // Perform validation as necessary
-    if(validationType.equals("email")) {
+    if (validationType.equals("email")) {
       return isValidEmailAddress(value);
-    } else if(validationType.equals("integer")) {
+    } else if (validationType.equals("integer")) {
       try {
         Integer.parseInt(value);
       } catch (NumberFormatException e) {
         return false;
       }
       return true;
-    } else if(validationType.equals("double")) {
+    } else if (validationType.equals("double")) {
       try {
         Double.parseDouble(value);
       } catch (NumberFormatException e) {
         return false;
       }
       return true;
-    } else if(validationType.equals("date")) {
+    } else if (validationType.equals("date")) {
       return isValidDate(value);
-    } else if(validationType.equals("gender")) {
+    } else if (validationType.equals("gender")) {
       return isValidGender(value);
-    } else if(validationType.equals("phone")) {
+    } else if (validationType.equals("phone")) {
       return isValidPhoneNumber(value);
-    } else if(validationType.equals("notnull")) {
+    } else if (validationType.equals("notnull")) {
       return !value.trim().isEmpty();
     }
 
@@ -60,11 +59,7 @@ public class DataUtilities {
     return true;
   }
 
-  public static void main(String[] args) {
-
-  }
-
-  private static boolean isValidPhoneNumber(String str) {
+  public static boolean isValidPhoneNumber(String str) {
     // Extensible depending on specific requirements.
     // We can change this to be country dependent as well
     // Currently verifying against uk numbers
@@ -92,7 +87,8 @@ public class DataUtilities {
 
   public static boolean isValidEmailAddress(String str) {
     // Check with regex
-    return str.matches("^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,4})$");
+    return str
+        .matches("^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,4})$");
   }
 
   public static boolean isValidGender(String str) {
@@ -128,8 +124,5 @@ public class DataUtilities {
     // bad!
     throw new RuntimeException("Invalid relationship status");
   }
-
-  // For integers, please do Integer.parseInt() ...
-  // And catch NumberFormatException and handle appropriately.
 
 }

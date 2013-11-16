@@ -8,8 +8,8 @@ public abstract class Form {
 
   protected Map<String, String[]> fields;
 
+  // Checks every field is valid
   protected boolean checkData() {
-    // Check over each of the fields.
     for (String str : fields.keySet()) {
       String[] value = fields.get(str);
       if (!DataUtilities.isValid(value)) {
