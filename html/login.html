@@ -45,31 +45,41 @@
 		{
 			var user = $("[name='username']").val();
 			var pass = $("[name='password']").val();
-
+			
+			/*
 			if(user.length == 0 || pass.length == 0)
 			{
 				// don't even bother
 				$("#errorblock").text("Pease fill in both username and password fields");
 				
 				if(user.length == 0)
+				{
 					$("[name='username']").addClass("error");
+				}
 
 				if(pass.length == 0)
+				{
 					$("[name='password']").addClass("error");
+				}
 
 				return;
 			}
+			*/
 
 			$(this).prop("disabled", true);
 			var login_result = Interact.attemptLogIn(user, pass);
 			$(this).prop("disabled", false);
-		
+
 			if(login_result.length == 0)
 			{
 				if(Interact.canAnimate())
+				{
 					$("#wrapper").fadeOut(300, function() { Interact.navigateToMain(); });
+				}
 				else
+				{
 					Interact.navigateToMain();
+				}
 			}
 			else
 			{
