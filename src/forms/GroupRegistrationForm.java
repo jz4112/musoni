@@ -17,10 +17,7 @@ public class GroupRegistrationForm extends Form {
       return false;
     }
 
-    if (checkData()) {
-      return true;
-    }
-    return false;
+    return checkData();
   }
 
   public String getCreateGroupJSONRequest() {
