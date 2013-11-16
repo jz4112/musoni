@@ -4,17 +4,44 @@
 	<link rel="stylesheet" type="text/css" href="includes/reset.css">
 	<link rel="stylesheet" type="text/css" href="includes/common.css">
 	<link rel="stylesheet" type="text/css" href="includes/login.css">
-
+	<script type="text/javascript" src="includes/jquery.min.js" ></script>
+	<script type="text/javascript" src="includes/interact.js"></script>
 	<title>Login</title>
 </head>
 <body>
+	<script type="text/javascript">
+	$(document).ready(function() {
+	
+		var wrap = $("#wrapper");
+		wrap.hide();
+
+		var ht = $(window).height();
+		var lht = wrap.height();
+		
+		wrap.offset({"top":(ht - lht) / 2});
+		
+		if(Interact.canAnimate())
+			wrap.fadeIn(300);
+		else
+			wrap.show();
+
+		// handles login
+		$("#loginbutton").click(function()
+		{
+			$(this).prop("disabled", true);
+			var result = Interact.attemptLogIn($("[name='username']").val(), $("[name='password']").val());
+			$(this).prop("disabled", false);
+		});
+
+	});
+	</script>
 	<div id="wrapper">
 		<br/><br/>
 		<div class="logo-image top-pad"></div>
 		<form  action="#" method="GET">
 			<label>username<br/><input class="field" type="text" name="username" /></label><br/>
 			<label>password<br/><input class="field" type="password" name="password" /></label><br/>
-			<input type="button" class="button" value="Login" />
+			<input type="button" class="button" value="Login" id="loginbutton"/>
 		</form>
 	</div>
 </body>

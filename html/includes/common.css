@@ -15,9 +15,12 @@
 }
 
 .button:focus {
-
+	outline: none;
 }
 
+.button:disabled {
+	background: #999;
+}
 
 .field {
 	border: none;
