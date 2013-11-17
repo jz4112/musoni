@@ -52,6 +52,7 @@ public class SyncModule {
     if (!form.toBeSynced()) {
       return;
     }
+
     if (form instanceof ClientRegistrationForm) {
       ClientRegistrationForm crf = (ClientRegistrationForm) form;
       String response = sendMessageToServer(crf.buildCreateClientQuery(),
@@ -67,6 +68,7 @@ public class SyncModule {
           + "datatables/ml_client_next_of_kin?tenantIdentifier=" + tenantIdentifier);
       sendMessageToServer(crf.buildClientDetailsAddition(), apiPath
           + "datatables/ml_client_details?tenantIdentifier=" + tenantIdentifier);
+
     } else if (form instanceof GroupRegistrationForm) {
       GroupRegistrationForm grf = (GroupRegistrationForm) form;
       String response = sendMessageToServer(grf.getCreateGroupJSONRequest(),
@@ -81,8 +83,11 @@ public class SyncModule {
     } else if (form instanceof LoanApplicationForm) {
       LoanApplicationForm laf = (LoanApplicationForm) form;
       sendMessageToServer(laf.getJSONSubmissionQuery(), apiPath
-          + "ml_group_details?tenantIdentifier=" + tenantIdentifier);
+          + "loans?tenantIdentifier=" + tenantIdentifier);
     }
+
+    // safely reaching here means that the form was synced ok
+    form.markSynced();
   }
 
   private static String sendMessageToServer(JSONObject obj, String url)

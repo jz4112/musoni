@@ -11,7 +11,7 @@ public abstract class Form implements Serializable {
 
   protected Map<String, String[]> fields;
 
-  protected boolean toBeSynced;
+  protected boolean toBeSynced = true;
 
   // Checks every field is valid
   protected boolean checkData() {
@@ -26,6 +26,10 @@ public abstract class Form implements Serializable {
 
   public boolean toBeSynced() {
     return toBeSynced;
+  }
+
+  public void markSynced() {
+    toBeSynced = false;
   }
 
 }
