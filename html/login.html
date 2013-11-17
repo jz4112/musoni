@@ -46,7 +46,6 @@
 			var user = $("[name='username']").val();
 			var pass = $("[name='password']").val();
 			
-			/*
 			if(user.length == 0 || pass.length == 0)
 			{
 				// don't even bother
@@ -64,7 +63,6 @@
 
 				return;
 			}
-			*/
 
 			$(this).prop("disabled", true);
 			var login_result = Interact.attemptLogIn(user, pass);
