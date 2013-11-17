@@ -9,6 +9,8 @@ public abstract class Form implements Serializable {
 
   protected Map<String, String[]> fields;
 
+  protected boolean toBeSynced;
+
   // Checks every field is valid
   protected boolean checkData() {
     for (String str : fields.keySet()) {
@@ -18,6 +20,10 @@ public abstract class Form implements Serializable {
       }
     }
     return true;
+  }
+
+  public boolean toBeSynced() {
+    return toBeSynced;
   }
 
 }
