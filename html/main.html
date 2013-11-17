@@ -69,7 +69,13 @@
 				Interact.navigateToBusiness();
 			}
 		});
-	});
+		
+		
+		$("#syncbutton").click(function() {
+				Interact.beginSync();
+			});
+
+		});
 
 	</script>
 	
@@ -81,7 +87,7 @@
 			<div class="button large" id="regbutton"> Registration</div>
 			<div class="button large" id="loanbutton">Loan Application</div>
 			<div class="button large" id="businessbutton">Business Meeting</div>
-			<br/><br/><br/>
+			<div class="button large" id="syncbutton">Synchronise Data</div><br/><br/><br/>
 		</div>
 	</div>
 </body>
