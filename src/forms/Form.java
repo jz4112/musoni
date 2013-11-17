@@ -9,8 +9,12 @@ public abstract class Form implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
+  // Map storing strings (field names) to string arrays of length 2 (values and
+  // validation types)
   protected Map<String, String[]> fields;
 
+  // Boolean flag indicating if the form needs to be synchronised with the web
+  // server.
   protected boolean toBeSynced = true;
 
   // Checks every field is valid
@@ -28,6 +32,8 @@ public abstract class Form implements Serializable {
     return toBeSynced;
   }
 
+  // Marks this form as synchronized - i.e. the form does not need to be
+  // synchronized with the web server!
   public void markSynced() {
     toBeSynced = false;
   }

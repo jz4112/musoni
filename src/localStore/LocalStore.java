@@ -19,84 +19,94 @@ import synchronisation.SyncModule;
 import android.content.Context;
 import forms.Form;
 
+// LocalStore - uses the Singleton pattern to ensure all methods access only one store of forms.
+
 public class LocalStore {
-	private static List<Form> forms;
-	private static LocalStore instance = null;
-	private static Context context;
+  private static List<Form> forms;
+  private static LocalStore instance = null;
+  private static Context context;
 
-	private LocalStore(Context context) {
-		forms = new LinkedList<Form>();
-		LocalStore.context = context;
-	}
+  // Singleton pattern - private constructor
+  private LocalStore(Context context) {
+    forms = new LinkedList<Form>();
+    LocalStore.context = context;
+  }
 
-	public static void setUp(Context context) {
-	  instance = new LocalStore(context);
-	}
+  public static void setUp(Context context) {
+    instance = new LocalStore(context);
+  }
 
-	public static LocalStore getInstance(Context context) {
-	  if(instance == null) {
-	    instance = new LocalStore(context);
-	  }
-	  return instance;
-	}
+  // Singleton pattern - reference
+  public static LocalStore getInstance(Context context) {
+    if (instance == null) {
+      instance = new LocalStore(context);
+    }
+    return instance;
+  }
 
-	public static LocalStore getInstance() {
-	  if(instance == null && context == null) {
-	    throw new RuntimeException("No context supplied!");
-	  } else if (instance == null) {
-	    instance = new LocalStore(context);
-	  }
-	  return instance;
-	}
+  // Singleton pattern - reference
+  public static LocalStore getInstance() {
+    if (instance == null && context == null) {
+      throw new RuntimeException("No context supplied!");
+    } else if (instance == null) {
+      instance = new LocalStore(context);
+    }
+    return instance;
+  }
 
-	private String filePath(Form form) {
-		return "Form #" + forms.indexOf(form) + ".pdf";
-	}
-/**
- * 	every time we add a new form, we automatically save it to the directory
- * @param newForm
- * @throws Exception
- */
-	public void add(Form newForm) throws Exception{
+  // Generates filenames
+  private String filePath(Form form) {
+    return "Form #" + forms.indexOf(form) + ".pdf";
+  }
 
-		forms.add(newForm);
-		// create a new file
-		OutputStream buffer;
+  /**
+   * every time we add a new form, we automatically save it to the directory
+   *
+   * @param newForm
+   * @throws Exception
+   */
+  public void add(Form newForm) throws Exception {
 
-		FileOutputStream fos = context.openFileOutput(filePath(newForm), Context.MODE_PRIVATE);
-		buffer = new BufferedOutputStream(fos);
-		ObjectOutput output = new ObjectOutputStream(buffer);
-		output.writeObject(newForm);
-		output.flush();
-		output.close();
+    forms.add(newForm);
+    // create a new file
+    OutputStream buffer;
 
-		if(SyncModule.WifiConnected()) {
-		  SyncModule.uploadForm(newForm);
-		}
-	}
+    FileOutputStream fos = context.openFileOutput(filePath(newForm),
+        Context.MODE_PRIVATE);
+    buffer = new BufferedOutputStream(fos);
+    ObjectOutput output = new ObjectOutputStream(buffer);
+    output.writeObject(newForm);
+    output.flush();
+    output.close();
 
-	/**
-	 * convert all files back to forms every time we restart the app
-	 * @return
-	 * @throws ClassNotFoundException
-	 * @throws IOException
-	 */
-	public boolean loadAll() throws ClassNotFoundException, IOException {
-		InputStream buffer;
-		for (String fileName : context.fileList()) {
-		  FileInputStream fis = context.openFileInput(fileName);
-			buffer = new BufferedInputStream(fis);
-			ObjectInput in = new ObjectInputStream(buffer);
-			Form form = (Form)in.readObject();
-			forms.add(form);
-			in.close();
-		}
-		return true;
-	}
+    if (SyncModule.WifiConnected()) {
+      SyncModule.uploadForm(newForm);
+    }
+  }
 
-	public List<Form> getForms() {
-	  return forms;
-	}
+  /**
+   * convert all files back to forms every time we restart the app
+   *
+   * @return
+   * @throws ClassNotFoundException
+   * @throws IOException
+   */
+  public boolean loadAll() throws ClassNotFoundException, IOException {
+    InputStream buffer;
+    for (String fileName : context.fileList()) {
+      FileInputStream fis = context.openFileInput(fileName);
+      buffer = new BufferedInputStream(fis);
+      ObjectInput in = new ObjectInputStream(buffer);
+      Form form = (Form) in.readObject();
+      forms.add(form);
+      in.close();
+    }
+    return true;
+  }
+
+  public List<Form> getForms() {
+    return forms;
+  }
 
   public Context getContext() {
     return context;

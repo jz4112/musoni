@@ -12,6 +12,8 @@ public class LoanApplicationForm extends Form {
 
   private static final long serialVersionUID = 1L;
 
+  // Iterates over all fields, ensuring they are well formed, and also
+  // checks that all of the required fields are present.
   public boolean validateData() {
     Set<String> keySet = fields.keySet();
     String[] fieldsList = { "clientId", "productId", "principal",
@@ -29,6 +31,7 @@ public class LoanApplicationForm extends Form {
     return checkData();
   }
 
+  // Builds the JSON message body to be sent to create a loan submission.
   public JSONObject getJSONSubmissionQuery() {
     String[] possibleFields = { "clientId", "productId", "principal",
         "loanTermFrequency", "loanTermFrequencyType", "loanType",

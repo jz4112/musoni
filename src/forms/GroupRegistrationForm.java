@@ -10,6 +10,8 @@ public class GroupRegistrationForm extends Form {
 
   private static final long serialVersionUID = 1L;
 
+  // Ensures that an officeID and name are present.
+  // Also iterates over list of fields and values, ensuring they're well-formed
   public boolean validateData() {
     Set<String> keySet = fields.keySet();
 
@@ -26,6 +28,7 @@ public class GroupRegistrationForm extends Form {
     return checkData();
   }
 
+  // Builds the JSON message body to be sent to create a group entity in the API.
   public JSONObject getCreateGroupJSONRequest() {
     String[] possibleFields = { "name", "officeID", "active", "activationDate",
         "externalId", "staffId", "clientMembers" };
@@ -42,6 +45,8 @@ public class GroupRegistrationForm extends Form {
     return new JSONObject(presentPairs);
   }
 
+  // Builds the JSON message body to be sent to create a datatable entry for the
+  // group details table.
   public JSONObject getMLGroupDetailsJSONRequest() {
     String[] possibleFields = { "group_id", "registration", "meetingday_cd",
         "meetingfrequency_cd", "meetinglocation" };

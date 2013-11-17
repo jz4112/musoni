@@ -11,11 +11,15 @@ public class ClientRegistrationForm extends Form {
 
   private static final long serialVersionUID = 1L;
 
+  // Adds the client ID to the fields in the map
   public void putClientID(String id) {
     String[] str = { id, "" };
     fields.put("client_id", str);
   }
 
+  // Iterates over all data elements checking they are valid
+  // Also ensures that an officeID is present, and either both a firstname and
+  // lastname, or a fullname, is present.
   public boolean validateData() {
     Set<String> keySet = fields.keySet();
 
@@ -33,6 +37,8 @@ public class ClientRegistrationForm extends Form {
     return checkData();
   }
 
+  // Builds the JSON message body to be sent to create a datatable entry for the
+  // business table.
   public JSONObject buildClientBusinessAddition() {
     // precondition: well formed form
     StringBuilder strB = new StringBuilder();
@@ -53,6 +59,8 @@ public class ClientRegistrationForm extends Form {
     return new JSONObject(presentPairs);
   }
 
+  // Builds the JSON message body to be sent to create a datatable entry for the
+  // client details table.
   public JSONObject buildClientDetailsAddition() {
     // precondition: well formed form
     StringBuilder strB = new StringBuilder();
@@ -73,6 +81,8 @@ public class ClientRegistrationForm extends Form {
     return new JSONObject(presentPairs);
   }
 
+  // Builds the JSON message body to be sent to create a datatable entry for the
+  // client NOK table.
   public JSONObject buildClientNOKAddition() {
     // precondition: well formed form
     StringBuilder strB = new StringBuilder();
@@ -94,6 +104,7 @@ public class ClientRegistrationForm extends Form {
     return new JSONObject(presentPairs);
   }
 
+  // Builds the JSON message body to be sent to create a client.
   public JSONObject buildCreateClientQuery() {
     // precondition: well formed form
     StringBuilder strB = new StringBuilder();
