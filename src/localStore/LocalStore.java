@@ -1,4 +1,4 @@
-package com.example.code4good;
+package localStore;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -16,6 +16,7 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
+import android.content.Context;
 import forms.Form;
 
 public class LocalStore implements Serializable {
@@ -24,18 +25,34 @@ public class LocalStore implements Serializable {
 	private static File dir;
 	private static List<Form> forms;
 	private static LocalStore instance = null;
+	private static Context context;
 
-	private LocalStore() {
+	private LocalStore(Context context) {
 		forms = new LinkedList<Form>();
 		dir = new File(dirPathName);
 		do {
 			dir.mkdirs();
 		} while (!dir.isDirectory());
+
+		this.context = context;
 	}
 
-	public LocalStore getInstance() {
+	public static void setUp(Context context) {
+	  instance = new LocalStore(context);
+	}
+
+	public static LocalStore getInstance(Context context) {
 	  if(instance == null) {
-	    instance = new LocalStore();
+	    instance = new LocalStore(context);
+	  }
+	  return instance;
+	}
+
+	public static LocalStore getInstance() {
+	  if(instance == null && context == null) {
+	    throw new RuntimeException("No context supplied!");
+	  } else if (instance == null) {
+	    instance = new LocalStore(context);
 	  }
 	  return instance;
 	}
@@ -80,5 +97,9 @@ public class LocalStore implements Serializable {
 			in.close();
 		}
 		return true;
+	}
+
+	public List<Form> getForms() {
+	  return forms;
 	}
 }
