@@ -18,7 +18,7 @@ import java.util.List;
 import android.content.Context;
 import forms.Form;
 
-public class LocalStore implements Serializable {
+public class LocalStore {
 	private static final long serialVersionUID = 42L;
 	private static List<Form> forms;
 	private static LocalStore instance = null;
