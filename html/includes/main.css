@@ -1,0 +1,39 @@
+@media screen and (max-width: 480px) {
+	.button.large {
+		width: 100%;
+		max-width: 300px;
+	}
+}
+
+@media screen and (min-width: 400px) {
+	.button.large {
+		min-width: 300px;
+		max-width: 50%;
+	}
+}
+
+.button.large {
+	display: inline-block;
+	background: #4191E8;
+	padding: 40px 40px 40px 40px;
+	cursor: pointer;
+}
+
+
+#userfield {
+	padding: 10px;
+	font-size: 24px;
+	color: #666;
+	display: inline-block;
+	margin: auto;
+	padding: 20px;
+}
+
+#syncstatus {
+	color: #0AC60A;
+	font-size: 18px;
+	border-radius: 5px;
+	display: block;
+	margin: auto;
+	padding: 20px;
+}

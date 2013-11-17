@@ -4,15 +4,84 @@
 	<link rel="stylesheet" type="text/css" href="includes/reset.css" />
 	<link rel="stylesheet" type="text/css" href="includes/common.css" />
 	<link rel="stylesheet" type="text/css" href="includes/main.css" />
+	<script type="text/javascript" src="includes/jquery.min.js"></script>
+	<script type="text/javascript" src="includes/interact.js"></script>
 	<title>Main Menu</title>
 </head>
 <body>
-	<div id="wrapper">
+	<script type="text/javascript">
+	
+	$(document).ready(function()
+	{
+		var wrap = $("#wrapper");
+		wrap.hide();
+
+		var ht = $(window).height();
+		var lht = wrap.height();
+
+		wrap.offset({"top" : (ht - lht) / 2 });
+
+		if(Interact.canAnimate())
+			wrap.fadeIn(300);
+		else
+			wrap.show();
 		
+		// populate our dataSync and stuff.
+		var uname = Interact.getCurrentUsername();
+		$("#userfield").html("Currently logged in as <strong>" + uname + "</strong>.");
+		
+		// populate our sync
+		if(Interact.isSyncPending())
+		{
+			$("#syncstatus").text("There is data waiting to be synchronised. Please connect to the internet.");
+		}
+		
+		$("#regbutton").click(function() {
+			if(Interact.canAnimate())
+			{
+				wrap.fadeOut(300, function() { Interact.navigateToRegistration(); });
+			}
+			else
+			{
+				Interact.navigateToRegistration();
+			}
+		});
+
+		$("#loanbutton").click(function() { 
+			
+			if(Interact.canAnimate())
+			{
+				wrap.fadeOut(300, function() { Interact.navigateToLoan(); });
+			}
+			else
+			{
+				Interact.navigateToLoan();
+			}
+		});
+
+		$("#businessbutton").click(function() { 
+			if(Interact.canAnimate())
+			{
+				wrap.fadeOut(300, function() { Interact.navigateToBusiness(); });
+			}
+			else
+			{
+				Interact.navigateToBusiness();
+			}
+		});
+	});
+
+	</script>
+	
+	<div id="wrapper">
+		<div id="userfield"></div>
+		<div id="syncstatus"></div>
 		<div id="button-container">
-
-
-
+		<span>Please select a form you would like to fill in below</span>
+			<div class="button large" id="regbutton"> Registration</div>
+			<div class="button large" id="loanbutton">Loan Application</div>
+			<div class="button large" id="businessbutton">Business Meeting</div>
+			<br/><br/><br/>
 		</div>
 	</div>
 </body>
