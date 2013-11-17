@@ -1,0 +1,14 @@
+Summary of your project:
+
+We were tasked with implementing a solution to assist Musoni loan officers in the carrying out of certain tasks including client registrations, business visits
+as well as loan applications via mobile devices such as tablets and smartphones. This solution would help microfinance instutitions expand their geographical coverage more easily, by reducing the administrative costs involved in operating in rural areas.
+
+The features we sought to implement included digital versions of various forms that the loan officers would use - such as client registration forms, group registration forms and loan application forms. We developed an Android application that could handle digital inputs, converting them to an internal store which would be written to disk. This would satisfy the requirement that the application operates gracefully when offline, as well as ensure that we would still have the data available even in the event that the program had to be closed (e.g. the device ran out of battery while in the field).
+
+The internal store could be synchronized with mLite using the provided API when an Internet connection was available. Modules were developed that would prepare JSON messages from the object fields that were filled in, and update the necessary data-tables with the details of the customers.
+
+There were several additional features that we implemented to enhance the effectiveness of our solution. Firstly, we implemented an authentication system for loan officers. Loan officers would only be able to access the system with proper login credentials (typically, a username and password). This would limit unauthorised access to the system - thereby improving data security.
+
+We also implemented data-validation procedures to ensure that non-meaningful inputs would be rejected. This would allow agents to immediately be notified of any inconsistent or irregular data that might be encountered - possibly saving them the hassle of re-contacting the customer at a later date when the mistake would be discovered manually.
+
+Finally, we included an encryption module that would allow us to encrypt sensitive information, such as user authentication data and client details that were to be transmitted by HTTPS to the 

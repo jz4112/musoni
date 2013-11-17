@@ -1,0 +1,9 @@
+Technologies leveraged:
+
+We implemented most of the user interface of our Android application in JavaScript using WebViews; in order to test the appearance of the user interface, we used both team members' Android phones as well as an emulator available in the Android Development Toolkit.
+
+The back-end of our application, such as the handling of data structures and network connections, was implemented in Java using the Eclipse IDE.
+
+To manage our code, we used the git version control tool to keep track of our code as well as to ensure that errors could easily be recovered from.
+
+Finally, to test our code, we used the aforementioned Android emulators; for the Java code, we also used JUnit to perform unit tests for various methods (most significantly, the data-validation procedures) in the back-end.
