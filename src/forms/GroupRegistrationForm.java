@@ -4,6 +4,8 @@ import java.util.Set;
 
 public class GroupRegistrationForm extends Form {
 
+  private static final long serialVersionUID = 1L;
+
   public boolean validateData() {
     Set<String> keySet = fields.keySet();
 
@@ -22,11 +24,16 @@ public class GroupRegistrationForm extends Form {
 
   public String getCreateGroupJSONRequest() {
     StringBuilder strB = new StringBuilder();
-    strB.append("POST groups\n");
-    strB.append("Content-Type: application/json Request Body:");
-    strB.append("{\n");
-    for (String str : fields.keySet()) {
-      strB.append("\t\"" + str + "\": " + fields.get(str)[0] + ",\n");
+
+    String[] possibleFields = { "name", "officeID", "active", "activationDate",
+        "externalId", "staffId", "clientMembers" };
+
+    // set dateformat
+    strB.append("\t\"dateFormat\": \"dd\\MM\\yyyy\"");
+    for (String str : possibleFields) {
+      if (fields.containsKey(str)) {
+        strB.append("\t\"" + str + "\": " + fields.get(str)[0] + ",\n");
+      }
     }
     strB.append("}\n");
     return strB.toString();

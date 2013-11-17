@@ -7,6 +7,8 @@ import utilities.DataUtilities;
 
 public abstract class Form implements Serializable {
 
+  private static final long serialVersionUID = 1L;
+
   protected Map<String, String[]> fields;
 
   protected boolean toBeSynced;
