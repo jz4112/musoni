@@ -1,115 +1,101 @@
-package localStore;
+package loginManager;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.util.LinkedList;
-import java.util.List;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
 
-import synchronisation.SyncModule;
-
+import localStore.LocalStore;
 import android.content.Context;
-import forms.Form;
+import encryption.Encryption;
 
-// LocalStore - uses the Singleton pattern to ensure all methods access only one store of forms.
+/**
+ * login data base that stores large login details in hard disk on the phone an
+ * user name must log in with internet access for the first time in order to
+ * store its login details in local repository <username, password>
+ *
+ * every time an user open the app, the login details file is loading into map
+ * which has <username, hashedPassword> as its value. Everytime a new user is
+ * detected, we add its login detail into the file
+ */
+public class LoginDataBase {
+	// map stores user name and hashed password
+	private static Map<String, String> map = new HashMap<String, String>();
+	private static String fileName = "loginDataBase.txt";
+	private static LoginDataBase instance = null;
+	private static Context context = LocalStore.getInstance().getContext();
+	private static FileInputStream fis;
 
-public class LocalStore {
-  private static List<Form> forms;
-  private static LocalStore instance = null;
-  private static Context context;
+	static {
+		fileName = "loginDataBase.txt";
+		try {
+			fis = context.openFileInput(fileName);
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
 
-  // Singleton pattern - private constructor
-  private LocalStore(Context context) {
-    forms = new LinkedList<Form>();
-    LocalStore.context = context;
-  }
+		// load file into the map
+		int b = -1;
+		StringBuilder sb = new StringBuilder();
+		String name = null;
+		String password = null;
+		try {
+			while ((b = fis.read()) != -1) {
+				if (b != ',') {
+					sb.append((char) b);
+				} else {
+					name = sb.toString();
+					break;
+				}
+			}
+			sb.delete(0, sb.length());
+			while ((b = fis.read()) != -1) {
+					sb.append((char) b);
+			}
+			password = sb.toString();
+			map.put(name, password);
+		} catch (IOException e) {
+			PassExceptionToUI.passToUI(e);
+		}
+	}
+	private LoginDataBase() throws FileNotFoundException {
+		fis = context.openFileInput(fileName);
 
-  public static void setUp(Context context) {
-    instance = new LocalStore(context);
-  }
+	}
+	public static LoginDataBase getInstance() throws FileNotFoundException {
+		if (instance == null) {
+			instance = new LoginDataBase();
+		}
+		return instance;
+	}
 
-  // Singleton pattern - reference
-  public static LocalStore getInstance(Context context) {
-    if (instance == null) {
-      instance = new LocalStore(context);
-    }
-    return instance;
-  }
+	public boolean constainsUsername(String user) {
+		return map.containsKey(user);
+	}
 
-  // Singleton pattern - reference
-  public static LocalStore getInstance() {
-//    if (instance == null && context == null) {
-//      throw new RuntimeException("No context supplied!");
-//    } else
-      if (instance == null) {
-      instance = new LocalStore(context);
-    }
-    return instance;
-  }
+	public String getHashedPassword(String password)
+			throws UnsupportedEncodingException, NoSuchAlgorithmException {
+		return Encryption.hash(password);
+	}
 
-  // Generates filenames
-  private String filePath(Form form) {
-    return "Form #" + forms.indexOf(form) + ".pdf";
-  }
+	public void changePassword(String username, String newPassword)
+			throws UnsupportedEncodingException, NoSuchAlgorithmException {
+		// one can only change his/her password after logged in successfully
+		map.put(username, Encryption.hash(newPassword));
+	}
 
-  /**
-   * every time we add a new form, we automatically save it to the directory
-   *
-   * @param newForm
-   * @throws Exception
-   */
-  public void add(Form newForm) throws Exception {
+	public void updateDataBase(String username, String password)
+			throws NoSuchAlgorithmException, IOException {
+		map.put(username, Encryption.hash(password));
+		FileOutputStream fos = context.openFileOutput(fileName, Context.MODE_APPEND);
+		String data = username + "," + password + "\n";
+		fos.write(data.getBytes());
+		fos.close();
+	}
 
-    forms.add(newForm);
-    // create a new file
-    OutputStream buffer;
-
-    FileOutputStream fos = context.openFileOutput(filePath(newForm),
-        Context.MODE_PRIVATE);
-    buffer = new BufferedOutputStream(fos);
-    ObjectOutput output = new ObjectOutputStream(buffer);
-    output.writeObject(newForm);
-    output.flush();
-    output.close();
-
-    if (SyncModule.WifiConnected()) {
-      SyncModule.uploadForm(newForm);
-    }
-  }
-
-  /**
-   * convert all files back to forms every time we restart the app
-   *
-   * @return
-   * @throws ClassNotFoundException
-   * @throws IOException
-   */
-  public boolean loadAll() throws ClassNotFoundException, IOException {
-    InputStream buffer;
-    for (String fileName : context.fileList()) {
-      FileInputStream fis = context.openFileInput(fileName);
-      buffer = new BufferedInputStream(fis);
-      ObjectInput in = new ObjectInputStream(buffer);
-      Form form = (Form) in.readObject();
-      forms.add(form);
-      in.close();
-    }
-    return true;
-  }
-
-  public List<Form> getForms() {
-    return forms;
-  }
-
-  public Context getContext() {
-    return context;
-  }
 }
