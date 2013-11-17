@@ -23,6 +23,7 @@ public class DataUtilities {
   // Age threshold for fields that need minimum age validation.
   private final static int AGE_THRESHOLD = 18;
 
+  // Checks if a string array of length 2 [value, type] is well formed.
   public static boolean isValid(String[] str) {
     if (str.length != 2) {
       // something wrong with input
@@ -30,7 +31,7 @@ public class DataUtilities {
           "Value to be checked should be an array of length 2");
     }
 
-    // string length is 2
+    // array length is 2
     String value = str[0];
     String validationType = str[1];
 
@@ -115,6 +116,9 @@ public class DataUtilities {
     Calendar currTime = Calendar.getInstance();
 
     int age = currTime.get(Calendar.YEAR) - entryTime.get(Calendar.YEAR);
+
+    // The age may be one less than the difference between years; this adjusts
+    // for that.
     if (currTime.get(Calendar.MONTH) < entryTime.get(Calendar.MONTH)) {
       age--;
     } else if (currTime.get(Calendar.MONTH) == entryTime.get(Calendar.MONTH)
@@ -132,16 +136,19 @@ public class DataUtilities {
     return cal;
   }
 
+  // Checks if specified string is a valid email address.
   public static boolean isValidEmailAddress(String str) {
-    // Check with regex
+    // Check with regex.
     return str
         .matches("^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,4})$");
   }
 
+  // Checks if specified string is a valid gender.
   public static boolean isValidGender(String str) {
     return genders.contains(str);
   }
 
+  // Checks if specified string is a valid marital status.
   public static boolean isValidMaritalStatus(String str) {
     return maritalStatus.contains(str);
   }
@@ -157,6 +164,7 @@ public class DataUtilities {
     throw new RuntimeException("Invalid marital status");
   }
 
+  // Checks if specified string is a valid relationship.
   public static boolean isValidRelation(String str) {
     return relationships.contains(str);
   }
