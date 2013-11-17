@@ -1,5 +1,8 @@
 package loginManager;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -7,6 +10,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
 import javax.net.ssl.HttpsURLConnection;
+
+import localStore.LocalStore;
+import android.content.Context;
 
 
 import encryption.Encryption;
@@ -20,10 +26,31 @@ public class LoginManager {
 
 	public LoginManager(String username, String password)
 			throws UnsupportedEncodingException, NoSuchAlgorithmException {
+		
+		try{
+			test();
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		
 		this.username = username;
 		this.password = password;
-		hashedPassword = Encryption.hash(password); // STORE THE HASHED VALUE IN
-													// THE DATABASE
+		hashedPassword = Encryption.hash(password); // STORE THE HASHED VALUE IN// THE DATABASE
+	}
+	
+	private void test() throws IOException, Exception{
+			Context cnt = LocalStore.getInstance().getContext();
+			File file = new File("." + File.separator + "file.txt");
+			file.createNewFile();
+			FileOutputStream fos = cnt.openFileOutput("file.txt", Context.MODE_APPEND);
+			String data = "aaa,aaa";
+			fos.write(data.getBytes());
+			fos.flush();
+			fos.close();
+			LoginManager username = new LoginManager("aaa" , Encryption.hash("aaa"));
+			username.login();
+			System.out.println("u"+username.login());
+		
 	}
 
 	// if the login does not have records in database, must have internet
