@@ -2,7 +2,11 @@ package forms;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
+
+import org.json.JSONObject;
 
 public class LoanApplicationForm extends Form {
 
@@ -25,7 +29,7 @@ public class LoanApplicationForm extends Form {
     return checkData();
   }
 
-  public String getJSONSubmissionQuery() {
+  public JSONObject getJSONSubmissionQuery() {
     String[] possibleFields = { "clientId", "productId", "principal",
         "loanTermFrequency", "loanTermFrequencyType", "loanType",
         "numberOfRepayments", "repaymentEvery", "repaymentFrequencyType",
@@ -35,18 +39,16 @@ public class LoanApplicationForm extends Form {
         "graceOnPrincipalPayment", "graceOnInterestPayment",
         "graceOnInterestCharged", "linkAccountId" };
 
-    StringBuilder strB = new StringBuilder();
+    Map<String, String> presentPairs = new LinkedHashMap<String, String>();
+    presentPairs.put("dateFormat", "\"dd\\MM\\yyyy\"");
 
-    // set dateformat
-    strB.append("\t\"dateFormat\": \"dd\\MM\\yyyy\"");
     for (String str : possibleFields) {
       if (fields.containsKey(str)) {
-        strB.append("\t\"" + str + "\": " + fields.get(str)[0] + ",\n");
+        presentPairs.put(str, fields.get(str)[0]);
       }
     }
-    strB.append("}\n");
-    return strB.toString();
 
+    return new JSONObject(presentPairs);
   }
 
 }

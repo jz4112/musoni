@@ -26,6 +26,7 @@ public class SyncModule {
 
   static Context ctx = LocalStore.getInstance().getContext();
   private static String tenantIdentifier = "code4good";
+  private static String apiPath = "https://mlite-demo.musoni.eu:8443/mifosng-provider/api/v1/";
 
   public static boolean WifiConnected() {
     ConnectivityManager connManager = (ConnectivityManager) ctx
@@ -53,44 +54,34 @@ public class SyncModule {
     }
     if (form instanceof ClientRegistrationForm) {
       ClientRegistrationForm crf = (ClientRegistrationForm) form;
-      String response = sendMessageToServer(
-          crf.buildCreateClientQuery(),
-          "https://mlite-demo.musoni.eu:8443/mifosng-provider/api/v1/clients?tenantIdentifier="
-              + tenantIdentifier);
+      String response = sendMessageToServer(crf.buildCreateClientQuery(),
+          apiPath + "clients?tenantIdentifier=" + tenantIdentifier);
 
       JSONObject obj = new JSONObject(response);
       String clientID = (String) obj.get("clientID");
       crf.putClientID(clientID);
 
-      sendMessageToServer(
-          crf.buildClientBusinessAddition(),
-          "https://mlite-demo.musoni.eu:8443/mifosng-provider/api/v1/datatables/ml_client_business/"
-              + clientID + "?tenantIdentifier=" + tenantIdentifier);
-      sendMessageToServer(
-          crf.buildClientNOKAddition(),
-          "https://mlite-demo.musoni.eu:8443/mifosng-provider/api/v1/datatables/ml_client_next_of_kin/"
-              + clientID + "?tenantIdentifier=" + tenantIdentifier);
-      sendMessageToServer(
-          crf.buildClientDetailsAddition(),
-          "https://mlite-demo.musoni.eu:8443/mifosng-provider/api/v1/datatables/ml_client_details/"
-              + clientID + "?tenantIdentifier=" + tenantIdentifier);
+      sendMessageToServer(crf.buildClientBusinessAddition(), apiPath
+          + "datatables/ml_client_business?tenantIdentifier=" + tenantIdentifier);
+      sendMessageToServer(crf.buildClientNOKAddition(), apiPath
+          + "datatables/ml_client_next_of_kin?tenantIdentifier=" + tenantIdentifier);
+      sendMessageToServer(crf.buildClientDetailsAddition(), apiPath
+          + "datatables/ml_client_details?tenantIdentifier=" + tenantIdentifier);
     } else if (form instanceof GroupRegistrationForm) {
       GroupRegistrationForm grf = (GroupRegistrationForm) form;
-      String response = sendMessageToServer(
-          grf.getCreateGroupJSONRequest(),
-          "https://mlite-demo.musoni.eu:8443/mifosng-provider/api/v1/groups?tenantIdentifier="
-              + tenantIdentifier);
+      String response = sendMessageToServer(grf.getCreateGroupJSONRequest(),
+          apiPath + "groups?tenantIdentifier=" + tenantIdentifier);
 
       JSONObject obj = new JSONObject(response);
       String groupID = (String) obj.get("groupID");
       grf.putGroupID(groupID);
 
-      sendMessageToServer(
-          grf.getMLGroupDetailsJSONRequest(),
-          "https://mlite-demo.musoni.eu:8443/mifosng-provider/api/v1/datatables/ml_group_details/"
-              + groupID + "?tenantIdentifier=" + tenantIdentifier);
+      sendMessageToServer(grf.getMLGroupDetailsJSONRequest(), apiPath
+          + "ml_group_details?tenantIdentifier=" + tenantIdentifier);
     } else if (form instanceof LoanApplicationForm) {
-      // TODO!
+      LoanApplicationForm laf = (LoanApplicationForm) form;
+      sendMessageToServer(laf.getJSONSubmissionQuery(), apiPath
+          + "ml_group_details?tenantIdentifier=" + tenantIdentifier);
     }
   }
 
