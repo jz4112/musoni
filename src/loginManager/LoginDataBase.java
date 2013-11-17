@@ -1,5 +1,6 @@
 package loginManager;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -17,7 +18,7 @@ import encryption.Encryption;
  * login data base that stores large login details in hard disk on the phone an
  * user name must log in with internet access for the first time in order to
  * store its login details in local repository <username, password>
- * 
+ *
  * every time an user open the app, the login details file is loading into map
  * which has <username, hashedPassword> as its value. Everytime a new user is
  * detected, we add its login detail into the file
@@ -64,7 +65,7 @@ public class LoginDataBase {
 	}
 	private LoginDataBase() throws FileNotFoundException {
 		fis = context.openFileInput(fileName);
-		
+
 	}
 	public static LoginDataBase getInstance() throws FileNotFoundException {
 		if (instance == null) {

@@ -46,9 +46,10 @@ public class LocalStore {
 
   // Singleton pattern - reference
   public static LocalStore getInstance() {
-    if (instance == null && context == null) {
-      throw new RuntimeException("No context supplied!");
-    } else if (instance == null) {
+//    if (instance == null && context == null) {
+//      throw new RuntimeException("No context supplied!");
+//    } else
+      if (instance == null) {
       instance = new LocalStore(context);
     }
     return instance;
