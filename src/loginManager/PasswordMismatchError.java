@@ -1,4 +1,4 @@
-package com.example.code4good;
+package loginManager;
 
 public class PasswordMismatchError extends Exception{
 	public PasswordMismatchError() {

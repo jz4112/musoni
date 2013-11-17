@@ -1,6 +1,10 @@
 package forms;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
+
+import org.json.JSONObject;
 
 public class GroupRegistrationForm extends Form {
 
@@ -22,21 +26,41 @@ public class GroupRegistrationForm extends Form {
     return checkData();
   }
 
-  public String getCreateGroupJSONRequest() {
-    StringBuilder strB = new StringBuilder();
-
+  public JSONObject getCreateGroupJSONRequest() {
     String[] possibleFields = { "name", "officeID", "active", "activationDate",
         "externalId", "staffId", "clientMembers" };
 
-    // set dateformat
-    strB.append("\t\"dateFormat\": \"dd\\MM\\yyyy\"");
+    Map<String, String> presentPairs = new LinkedHashMap<String, String>();
+    presentPairs.put("dateFormat", "\"dd\\MM\\yyyy\"");
+
     for (String str : possibleFields) {
       if (fields.containsKey(str)) {
-        strB.append("\t\"" + str + "\": " + fields.get(str)[0] + ",\n");
+        presentPairs.put(str, fields.get(str)[0]);
       }
     }
-    strB.append("}\n");
-    return strB.toString();
+
+    return new JSONObject(presentPairs);
+  }
+
+  public JSONObject getMLGroupDetailsJSONRequest() {
+    String[] possibleFields = { "group_id", "registration", "meetingday_cd",
+        "meetingfrequency_cd", "meetinglocation" };
+
+    Map<String, String> presentPairs = new LinkedHashMap<String, String>();
+    presentPairs.put("dateFormat", "\"dd\\MM\\yyyy\"");
+
+    for (String str : possibleFields) {
+      if (fields.containsKey(str)) {
+        presentPairs.put(str, fields.get(str)[0]);
+      }
+    }
+
+    return new JSONObject(presentPairs);
+  }
+
+  public void putGroupID(String groupID) {
+    String[] str = { groupID, "" };
+    fields.put("groupID", str);
   }
 
 }

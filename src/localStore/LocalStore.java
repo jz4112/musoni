@@ -11,7 +11,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,7 +18,6 @@ import android.content.Context;
 import forms.Form;
 
 public class LocalStore {
-	private static final long serialVersionUID = 42L;
 	private static List<Form> forms;
 	private static LocalStore instance = null;
 	private static Context context;
@@ -93,4 +91,8 @@ public class LocalStore {
 	public List<Form> getForms() {
 	  return forms;
 	}
+
+  public Context getContext() {
+    return context;
+  }
 }

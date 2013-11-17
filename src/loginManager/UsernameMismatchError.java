@@ -1,4 +1,4 @@
-package com.example.code4good;
+package loginManager;
 
 public class UsernameMismatchError extends Exception {
 	public UsernameMismatchError(String username) {

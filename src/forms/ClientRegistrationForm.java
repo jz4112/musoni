@@ -1,10 +1,20 @@
 package forms;
 
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
+
+import org.json.JSONObject;
 
 public class ClientRegistrationForm extends Form {
 
   private static final long serialVersionUID = 1L;
+
+  public void putClientID(String id) {
+    String[] str = { id, "" };
+    fields.put("client_id", str);
+  }
 
   public boolean validateData() {
     Set<String> keySet = fields.keySet();
@@ -23,7 +33,7 @@ public class ClientRegistrationForm extends Form {
     return checkData();
   }
 
-  private String buildClientBusinessAddition() {
+  public JSONObject buildClientBusinessAddition() {
     // precondition: well formed form
     StringBuilder strB = new StringBuilder();
     strB.append("{\n");
@@ -31,19 +41,19 @@ public class ClientRegistrationForm extends Form {
     String[] possibleFields = { "client_id", "businessName", "businessType",
         "businessStartDate", "address", "city", "country", "postalCode" };
 
-    // set dateformat
-    strB.append("\t\"dateFormat\": \"dd\\MM\\yyyy\"");
+    Map<String, String> presentPairs = new LinkedHashMap<String, String>();
+    presentPairs.put("dateFormat", "\"dd\\MM\\yyyy\"");
+
     for (String str : possibleFields) {
       if (fields.containsKey(str)) {
-        strB.append("\t\"" + str + "\": " + fields.get(str)[0] + ",\n");
+        presentPairs.put(str, fields.get(str)[0]);
       }
     }
-    strB.append("}\n");
 
-    return strB.toString();
+    return new JSONObject(presentPairs);
   }
 
-  private String buildClientDetailsAddition() {
+  public JSONObject buildClientDetailsAddition() {
     // precondition: well formed form
     StringBuilder strB = new StringBuilder();
     strB.append("{\n");
@@ -51,41 +61,40 @@ public class ClientRegistrationForm extends Form {
     String[] possibleFields = { "client_id", "town", "address", "phoneNumber",
         "gender_cd", "maritalStatus", "dateOfBirth", "state" };
 
-    // set dateformat
-    strB.append("\t\"dateFormat\": \"dd\\MM\\yyyy\"");
+    Map<String, String> presentPairs = new LinkedHashMap<String, String>();
+    presentPairs.put("dateFormat", "\"dd\\MM\\yyyy\"");
+
     for (String str : possibleFields) {
       if (fields.containsKey(str)) {
-        strB.append("\t\"" + str + "\": " + fields.get(str)[0] + ",\n");
+        presentPairs.put(str, fields.get(str)[0]);
       }
     }
-    strB.append("}\n");
 
-    return strB.toString();
+    return new JSONObject(presentPairs);
   }
 
-  private String buildClientNOKAddition() {
+  public JSONObject buildClientNOKAddition() {
     // precondition: well formed form
     StringBuilder strB = new StringBuilder();
     strB.append("{\n");
 
-    String[] possibleFields = { "nok_id", "nok_client_id", "nok_name", "nok_dateOfBirth",
-        "nok_address", "nok_city", "nok_phoneNumber", "nok_relation_to_client", "nok_state" };
+    String[] possibleFields = { "nok_id", "nok_client_id", "nok_name",
+        "nok_dateOfBirth", "nok_address", "nok_city", "nok_phoneNumber",
+        "nok_relation_to_client", "nok_state" };
 
-    // set dateformat
-    strB.append("\t\"dateFormat\": \"dd\\MM\\yyyy\"");
+    Map<String, String> presentPairs = new LinkedHashMap<String, String>();
+    presentPairs.put("dateFormat", "\"dd\\MM\\yyyy\"");
+
     for (String str : possibleFields) {
       if (fields.containsKey(str)) {
-        strB.append("\t\"" + str.substring(4) + "\": " + fields.get(str)[0] + ",\n");
+        presentPairs.put(str, fields.get(str)[0]);
       }
     }
-    strB.append("}\n");
 
-    return strB.toString();
+    return new JSONObject(presentPairs);
   }
 
-
-
-  private String buildCreateClientQuery() {
+  public JSONObject buildCreateClientQuery() {
     // precondition: well formed form
     StringBuilder strB = new StringBuilder();
     strB.append("{\n");
@@ -94,15 +103,16 @@ public class ClientRegistrationForm extends Form {
         "officeId", "active", "activationDate", "groupId", "externalId",
         "accountNo", "staffid" };
 
-    // set dateformat
-    strB.append("\t\"dateFormat\": \"dd\\MM\\yyyy\"");
+    Map<String, String> presentPairs = new LinkedHashMap<String, String>();
+    presentPairs.put("dateFormat", "\"dd\\MM\\yyyy\"");
+
     for (String str : possibleFields) {
       if (fields.containsKey(str)) {
-        strB.append("\t\"" + str + "\": " + fields.get(str)[0] + ",\n");
+        presentPairs.put(str, fields.get(str)[0]);
       }
     }
-    strB.append("}\n");
-    return strB.toString();
+
+    return new JSONObject(presentPairs);
   }
 
 }
