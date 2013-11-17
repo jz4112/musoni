@@ -1,0 +1,7 @@
+.form-section
+{
+	display: block;
+	width-max: 400px;
+
+	border: 1px dashed #333;
+}

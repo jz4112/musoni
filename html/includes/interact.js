@@ -17,5 +17,6 @@ if(ua != null && ua.indexOf("android") == -1)
 	window.Interact.isSyncPending = function() { return confirm("Return true on SyncPending?"); };
 	window.Interact.getCurrentUsername = function() { return prompt("Return value for getCurrentUsername", "testuser"); };
 
+	window.Interact.submitClientRegistration = function(keys, values) { alert("submitClientRegistration(" + keys + ", " + values + ") called"); };
 }
 

@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="includes/reset.css" />
+		<link rel="stylesheet" type="text/css" href="includes/common.css" />
+		<link rel="stylesheet" type="text/css" href="includes/clientreg.css" />
+	
+		<script src="includes/jquery.min.js" type="text/javascript"></script>
+		<script src="includes/interact.js" type="text/javascript"></script>
+		
+		<title>Client Reg. Form</title>
+	</head>
+	<body>
+		<script type="text/javascript">
+		$(document).ready(function() {
+			
+			$("#submit").click(function() {
+				var data = $("form").first().serializeArray();
+
+				var keys = Array();
+				var values = Array();
+
+				for(var i = 0; i < data.length; ++i)
+				{
+					keys[i] = data[i]["name"];
+					values[i] = data[i]["value"];
+				}
+
+				Interact.submitClientRegistration(keys, values);
+			});
+		});
+		</script>
+
+		<div id="wrapper">
+			<form id="regform" action="#" method="POST">	
+			<div class="form-section">
+				<h3>Client Information</h3>
+				<label>Client Type: <select name="clientType">
+					<option value="individualClient">Individual Client</option>
+					<option value="groupClient">Group Client</option>
+				</select></label>
+				
+				<label>Loan Officer: <input type="text"  class="field" disabled="true" name="loanOfficer" value="" /></label>
+				<label>Branch Name: <input type="text" class="field" disabled="true" name="branchName" value="" /></label>
+				<label>Group Name: <input type="text" class="field" name="groupName" value=""></label>
+			</div>
+			<div class="form-section">
+				<h3>Personal Information</h3>
+				<label>First Name: <input type="text" class="field" name="firstName" /></label>
+				<label>Middle Name: <input type="text" class="field" name="middleName" /></label>
+				<label>Last Name: <input type="text" class="field" name="lastName" /></label>
+				<label>Sex: <select name="sex"><option value="male">Male</option><option value="Female">Female</option></select></label>
+				<label>Date of Birth: <input type="date" name="dateOfBirth" /></label>
+				<label>Marital Status: <select name="maritalStatus"><option value="single">Single</option><option value="married">Married</option><option value="divorced">Divorced</option></select></label>
+				<label>Phone Number: <input type="text" class="field" name="phoneNumber" /></label>
+				<label>Address: <input type="text" class="field" name="address" /></label>
+				<label>Town: <input type="text" class="field" name="town" /></label>
+				<label>County: <input type="text" class="field" name="county" /></label>
+			</div>
+			<div class="form-section">
+				<h3>Identification</h3>
+				<label>Document Type: <select value="documentType"><option value="passport">Passport</option>
+										<option value="driversLicense">Drivers License</option>
+										<option value="votingCard">Voting Card</option>
+										<option value="nationalId">National ID</option>
+										<option value="other">Other</option></select></label>
+				<label>Unique ID Number: <input type="text" class="field" name="uniqueIdNumber" /></label>
+				<label>Description: <textarea name="description"></textarea></label>
+				<label>M-PESA Number: <input type="text" class="field" name="mPesaNumber" /></label>
+			</div>
+			<div class="form-section">
+				<h3>Business Details</h3>
+				<label>Business Name: <input type="text" class="field" name="businessName" /></label>
+				<label>Business Type: <input type="text" class="field" name="businessType" /></label>
+				<label>Start Date: <input type="date" name="businessStartDate" /></label>
+				<label>Address: <input type="text" class="field" name="businessAddress" /></label>
+				<label>City: <input type="text" class="field" name="businessCity" /></label>
+				<label>County: <input type="text" class="field" name="businessCounty" /></label>
+				<label>Phone Number <input type="text" class="field" name="businessPhoneNumber" /></label>
+			</div>
+			<div class="form-section">
+				<h3>Next of Kin</h3>
+				<label>Relation to Client: <select name="nokRelationToClient"><option value="parent">Parent</option><option value="sibling">Sibling</option>
+											<option value="spouse">Spouse</option><option value="businessAssociate">Business Associate</option>
+											<option value="other">Other</option></select></label>
+				<label>Name: <input type="text" class="field" name="nokName" /></label>
+				<label>Date of Birth: <input type="date" value="nokDateOfBirth" /></label>
+				<label>Address: <input type="text" class="field" name="nokAddress" /></label>
+				<label>City: <input type="text" class="field" name="nokCity" /></label>
+				<label>County: <input type="text" class="field" name="nokCounty" /></label>
+				<label>Phone Number: <input type="text" class="field" name="nokPhoneNumber" /></label>
+
+			</div>
+				<input type="button" class="button" value="Finish Registration" id="submit" />
+			</form>
+
+		</div>
+	</body>
+
+</html>
