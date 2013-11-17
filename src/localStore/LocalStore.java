@@ -91,4 +91,8 @@ public class LocalStore {
 	public List<Form> getForms() {
 	  return forms;
 	}
+
+  public Context getContext() {
+    return context;
+  }
 }
