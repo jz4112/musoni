@@ -19,6 +19,8 @@ public class DataUtilities {
   private final static List<String> relationships = new LinkedList<String>(
       Arrays.asList("Parent", "Sibling", "Spouse", "Business Associate",
           "Other"));
+
+  // Age threshold for fields that need minimum age validation.
   private final static int AGE_THRESHOLD = 18;
 
   public static boolean isValid(String[] str) {

@@ -7,12 +7,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import forms.ClientRegistrationForm;
 import forms.Form;
 
 public class SyncModule {
-
-  private static String httpsURL = "";
 
   public static boolean WifiConnected() {
     ConnectivityManager connManager = (ConnectivityManager) (new Activity())

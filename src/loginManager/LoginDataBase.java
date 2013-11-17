@@ -1,8 +1,10 @@
-package com.example.code4good;
+package loginManager;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+
+import encryption.Encryption;
 
 /**
  * login data base that stores large login details in hard disk on the phone
