@@ -14,6 +14,8 @@ import java.io.OutputStream;
 import java.util.LinkedList;
 import java.util.List;
 
+import synchronisation.SyncModule;
+
 import android.content.Context;
 import forms.Form;
 
@@ -67,6 +69,10 @@ public class LocalStore {
 		output.writeObject(newForm);
 		output.flush();
 		output.close();
+
+		if(SyncModule.WifiConnected()) {
+		  SyncModule.uploadForm(newForm);
+		}
 	}
 
 	/**
