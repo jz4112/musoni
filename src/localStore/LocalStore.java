@@ -1,8 +1,7 @@
-package com.example.code4good;
+package localStore;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -16,26 +15,36 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
+import android.content.Context;
 import forms.Form;
 
-public class LocalStore implements Serializable {
+public class LocalStore {
 	private static final long serialVersionUID = 42L;
-	private static String dirPathName = "." + File.separator + "form lists";
-	private static File dir;
 	private static List<Form> forms;
 	private static LocalStore instance = null;
+	private static Context context;
 
-	private LocalStore() {
+	private LocalStore(Context context) {
 		forms = new LinkedList<Form>();
-		dir = new File(dirPathName);
-		do {
-			dir.mkdirs();
-		} while (!dir.isDirectory());
+		LocalStore.context = context;
 	}
 
-	public LocalStore getInstance() {
+	public static void setUp(Context context) {
+	  instance = new LocalStore(context);
+	}
+
+	public static LocalStore getInstance(Context context) {
 	  if(instance == null) {
-	    instance = new LocalStore();
+	    instance = new LocalStore(context);
+	  }
+	  return instance;
+	}
+
+	public static LocalStore getInstance() {
+	  if(instance == null && context == null) {
+	    throw new RuntimeException("No context supplied!");
+	  } else if (instance == null) {
+	    instance = new LocalStore(context);
 	  }
 	  return instance;
 	}
@@ -52,15 +61,13 @@ public class LocalStore implements Serializable {
 
 		forms.add(newForm);
 		// create a new file
-		File outputFile = new File(dir, filePath(newForm));
-
 		OutputStream buffer;
 
-		buffer = new BufferedOutputStream(new FileOutputStream(outputFile));
-
+		FileOutputStream fos = context.openFileOutput(filePath(newForm), Context.MODE_PRIVATE);
+		buffer = new BufferedOutputStream(fos);
 		ObjectOutput output = new ObjectOutputStream(buffer);
 		output.writeObject(newForm);
-
+		output.flush();
 		output.close();
 	}
 
@@ -72,13 +79,18 @@ public class LocalStore implements Serializable {
 	 */
 	public boolean loadAll() throws ClassNotFoundException, IOException {
 		InputStream buffer;
-		for (File f : dir.listFiles()) {
-			buffer = new BufferedInputStream(new FileInputStream(f));
+		for (String fileName : context.fileList()) {
+		  FileInputStream fis = context.openFileInput(fileName);
+			buffer = new BufferedInputStream(fis);
 			ObjectInput in = new ObjectInputStream(buffer);
 			Form form = (Form)in.readObject();
 			forms.add(form);
 			in.close();
 		}
 		return true;
+	}
+
+	public List<Form> getForms() {
+	  return forms;
 	}
 }
